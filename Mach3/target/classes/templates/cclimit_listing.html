@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header">...</div>
+Task Listing3
+
+       
+<table>
+	<tr th:each="clr : ${list}">
+		<td> <a th:attr="href=./Detail?appNo=${clr.clrAppno}" th:text="${clr.clrAppno}"></a></td>
+		<td></td>
+	</tr>
+</table>
+</html>
+<!--  -->

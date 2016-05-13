@@ -1,0 +1,13 @@
+<div th:replace="fragments/header">...</div>
+Task Listing3
+
+       
+<table>
+	<tr th:each="task : ${list}">
+		<td th:text="${task.name}"></td>
+	</tr>
+</table>
+
+<form action="TaskCenter/SendMQ">
+<input type="submit" value="Send MQ"/>
+</form>
