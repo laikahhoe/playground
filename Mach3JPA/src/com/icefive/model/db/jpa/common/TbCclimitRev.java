@@ -25,7 +25,6 @@ import javax.persistence.TemporalType;
     @NamedQuery(name="TbCclimitRev.findAllBySubmittedDate",
     			query="SELECT t FROM TbCclimitRev t WHERE t.clrSubmittedDate >= :clrSubmittedDateStartTime and t.clrSubmittedDate < :clrSubmittedDateEndTime ")
 }) 
-
 public class TbCclimitRev implements Serializable {
 	private static final long serialVersionUID = 1L;
 
