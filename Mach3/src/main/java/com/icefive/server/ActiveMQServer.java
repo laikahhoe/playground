@@ -4,11 +4,13 @@ import org.apache.activemq.broker.BrokerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.SmartLifecycle;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.icefive.config.AppConfig;
 
 @Component
+@Order(1)
 public class ActiveMQServer implements SmartLifecycle {
 
 	private final Logger logger = LoggerFactory.getLogger(ActiveMQServer.class);

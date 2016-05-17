@@ -6,12 +6,19 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.eclipse.persistence.annotations.ReadOnly;
+
+import com.icefive.model.db.jpa.master.TbmQparam;
 
 
 /**
@@ -24,6 +31,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name="TbCclimitRev.findAll", query="SELECT t FROM TbCclimitRev t"),
     @NamedQuery(name="TbCclimitRev.findAllBySubmittedDate",
     			query="SELECT t FROM TbCclimitRev t WHERE t.clrSubmittedDate >= :clrSubmittedDateStartTime and t.clrSubmittedDate < :clrSubmittedDateEndTime ")
+	
 }) 
 public class TbCclimitRev implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -120,6 +128,31 @@ public class TbCclimitRev implements Serializable {
 
 	@Column(name="CLR_VER")
 	private int clrVer;
+	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLR_PRMID",updatable=false, insertable=false)
+	private TbmQparam tbmQparam;
+
+	public TbmQparam getTbmQparam() {
+		return tbmQparam;
+	}
+	
+	
+	public void setTbmQparam(TbmQparam tbmQparam) {
+		this.tbmQparam = tbmQparam;
+	}
+
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLR_CIFNO",updatable=false, insertable=false)
+	private TbCif tbCif;
+
+	public TbCif getTbCif() {
+		return tbCif;
+	}
+
+	public void setTbCif(TbCif tbCif) {
+		this.tbCif = tbCif;
+	}
 
 	public TbCclimitRev() {
 	}

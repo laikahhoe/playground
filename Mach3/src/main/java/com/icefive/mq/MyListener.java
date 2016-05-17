@@ -1,5 +1,6 @@
 package com.icefive.mq;
 
+import javax.annotation.Priority;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -15,14 +16,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.SmartLifecycle;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.icefive.server.ActiveMQServer;
+
 @Component
+@Order(2)
 public class MyListener implements MessageListener, SmartLifecycle{
 
 	private final Logger logger = LoggerFactory.getLogger(MyListener.class);
 	@Autowired
 	private QueueConnectionFactory queueConnectionFactory;
+	
+	@Autowired 
+	private ActiveMQServer activeMQServer;
 	
 	private QueueConnection con;
 	private boolean running = false;

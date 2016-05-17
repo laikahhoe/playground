@@ -3,6 +3,9 @@
 	<persistence-unit name="Mach3JPA">
 		<class>com.icefive.model.db.jpa.common.TbQflowrpt</class>
 		<class>com.icefive.model.db.jpa.common.TbCclimitRev</class>
+		<class>com.icefive.model.db.jpa.master.TbmQparam</class>
+		<class>model.TbmQparam</class>
+		<class>com.icefive.model.db.jpa.common.TbCif</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

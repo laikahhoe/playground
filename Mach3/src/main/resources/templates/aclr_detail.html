@@ -1,0 +1,11 @@
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<div layout:fragment="content">
+<table border="1px solid #CCCCCC" width="100%">
+<tr><td width="30%">Application No</td><td th:text="${item.clrAppno}"></td></tr>
+<tr><td>Current Queue</td><td th:text="${item.tbmQparam.qprmQname}"></td></tr>
+<tr><td>CIF No</td><td th:text="${item.clrCifno}"></td></tr>
+<tr><td>CIF Name</td><td th:text="${item.tbCif.cifName1}"></td></tr>
+</table>
+</div>
+</html>

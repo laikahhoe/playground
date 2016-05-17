@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="lib/db2jcc_license_cu.jar"/>
 	<classpathentry kind="lib" path="lib/db2jcc.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mach3JPA"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/eclipselink"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

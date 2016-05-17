@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<div layout:fragment="content">
+<form th:action="@{/ACLR}" th:object="${tbCclimitRev}" method="post">
+<table>
+<tr>
+	<td>App No</td>
+	<td><input type="text" th:field="*{clrAppno}"/> </td>
+	<td><input type="submit" name="btnSubmit" value="Submit"/> </td>
+</tr>
+</table>
+<table>
+	<tr th:each="clr : ${list}">
+		<td> <a th:href="@{'/ACLR/detail/' + ${clr.clrAppno}}"  th:text="${clr.clrAppno}"></a></td> 
+		<td></td>
+	</tr>
+</table>
+</form>
+</div>
+</html>
