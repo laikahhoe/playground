@@ -3,6 +3,7 @@ package com.icefive.model.db.jpa.common;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.eclipse.persistence.annotations.ReadOnly;
 
+import com.icefive.model.db.jpa.fbchecking.TbFcreportrequest;
+import com.icefive.model.db.jpa.fbchecking.TbFcreportrespond;
+import com.icefive.model.db.jpa.fbchecking.TbQflowrpt;
 import com.icefive.model.db.jpa.master.TbmQparam;
 
 
@@ -89,7 +95,7 @@ public class TbCclimitRev implements Serializable {
 	private Timestamp clrPrejudgedDate;
 
 	@Column(name="CLR_PRMID")
-	private int clrPrmid;
+	private Integer clrPrmid;
 
 	@Column(name="CLR_PROPOSED_LIMIT_CODE")
 	private String clrProposedLimitCode;
@@ -153,6 +159,48 @@ public class TbCclimitRev implements Serializable {
 	public void setTbCif(TbCif tbCif) {
 		this.tbCif = tbCif;
 	}
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	@OrderBy("qfrSeq ASC,qfrSubseq ASC")
+	private List<TbQflowrpt> tbQflowrptList;
+
+	public List<TbQflowrpt> getTbQflowrptList() {
+		return tbQflowrptList;
+	}
+
+
+	public void setTbQflowrptList(List<TbQflowrpt> tbQflowrptList) {
+		this.tbQflowrptList = tbQflowrptList;
+	}
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbFcreportrequest> tbFcreportrequestList;
+
+	public List<TbFcreportrequest> getTbFcreportrequestList() {
+		return tbFcreportrequestList;
+	}
+
+
+	public void setTbFcreportrequestList(
+			List<TbFcreportrequest> tbFcreportrequestList) {
+		this.tbFcreportrequestList = tbFcreportrequestList;
+	}
+
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbFcreportrespond> tbFcreportresponseList;
+	
+	
+
+	public List<TbFcreportrespond> getTbFcreportresponseList() {
+		return tbFcreportresponseList;
+	}
+
+
+	public void setTbFcreportresponseList(
+			List<TbFcreportrespond> tbFcreportresponseList) {
+		this.tbFcreportresponseList = tbFcreportresponseList;
+	}
+
 
 	public TbCclimitRev() {
 	}
@@ -293,11 +341,11 @@ public class TbCclimitRev implements Serializable {
 		this.clrPrejudgedDate = clrPrejudgedDate;
 	}
 
-	public int getClrPrmid() {
+	public Integer getClrPrmid() {
 		return this.clrPrmid;
 	}
 
-	public void setClrPrmid(int clrPrmid) {
+	public void setClrPrmid(Integer clrPrmid) {
 		this.clrPrmid = clrPrmid;
 	}
 

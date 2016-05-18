@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="Mach3JPA">
-		<class>com.icefive.model.db.jpa.common.TbQflowrpt</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbQflowrpt</class>
 		<class>com.icefive.model.db.jpa.common.TbCclimitRev</class>
 		<class>com.icefive.model.db.jpa.master.TbmQparam</class>
-		<class>model.TbmQparam</class>
 		<class>com.icefive.model.db.jpa.common.TbCif</class>
+		<class>com.icefive.model.db.jpa.common.TbCif2acc</class>
+		<class>com.icefive.model.db.jpa.common.TbCif2accPK</class>
+		<class>com.icefive.model.db.jpa.common.TbCifaddid</class>
+		<class>com.icefive.model.db.jpa.common.TbCifaddidPK</class>
+		<class>com.icefive.model.db.jpa.common.TbCifemphist</class>
+		<class>com.icefive.model.db.jpa.common.TbCifemphistPK</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbFcreportrequest</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbFcreportrespond</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>
             <property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:db2://200.1.4.70:8001/LOSDEV"/>
+            <!--  <property name="javax.persistence.jdbc.url" value="jdbc:db2://200.1.4.70:8001/LOSDEV"/>
             <property name="javax.persistence.jdbc.user" value="losdev"/>
             <property name="javax.persistence.jdbc.password" value="passw0rd"/>
+            -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:db2://100.1.1.191:8001/losprd"/>
+            <property name="javax.persistence.jdbc.user" value="batchusr"/>
+            <property name="javax.persistence.jdbc.password" value="Aeon1234"/>
         </properties>
 	</persistence-unit>
 	

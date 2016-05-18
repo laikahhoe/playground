@@ -1,10 +1,13 @@
 package com.icefive.model.db.jpa.common;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -179,6 +182,39 @@ public class TbCif implements Serializable {
 
 	@Column(name="CIF_VEHICLENO")
 	private String cifVehicleno;
+	
+	@OneToMany(mappedBy="tbcif")
+	private List<TbCifaddid> tbCifaddidList;
+	
+	public List<TbCifaddid> getTbCifaddidList() {
+		return tbCifaddidList;
+	}
+
+	public void setTbCifaddidList(List<TbCifaddid> tbCifaddidList) {
+		this.tbCifaddidList = tbCifaddidList;
+	}
+	
+	public TbCifaddid getNewIc(){
+		if(tbCifaddidList!=null){
+			for(TbCifaddid a : tbCifaddidList){
+				if("1".equalsIgnoreCase(a.getId().getCfaiIdtypeid())){
+					return a;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public TbCifaddid getOldIc(){
+		if(tbCifaddidList!=null){
+			for(TbCifaddid a : tbCifaddidList){
+				if("2".equalsIgnoreCase(a.getId().getCfaiIdtypeid())){
+					return a;
+				}
+			}
+		}
+		return null;
+	}
 
 	public TbCif() {
 	}

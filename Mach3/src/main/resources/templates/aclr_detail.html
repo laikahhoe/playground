@@ -4,8 +4,71 @@
 <table border="1px solid #CCCCCC" width="100%">
 <tr><td width="30%">Application No</td><td th:text="${item.clrAppno}"></td></tr>
 <tr><td>Current Queue</td><td th:text="${item.tbmQparam.qprmQname}"></td></tr>
+<tr><td>Status</td><td th:text="${item.clrStatus}"></td></tr>
 <tr><td>CIF No</td><td th:text="${item.clrCifno}"></td></tr>
 <tr><td>CIF Name</td><td th:text="${item.tbCif.cifName1}"></td></tr>
+<tr><td>New IC</td><td th:text="${item.tbCif.newIc!=null}?${item.tbCif.newIc.id.cfaiIdno}">Null</td></tr>
+<tr><td>Old IC</td><td th:text="${item.tbCif.oldIc!=null}?${item.tbCif.oldIc.id.cfaiIdno}">Null</td></tr>
+</table>
+<hr/>
+QFlowRpt
+<table  border="1px solid #CCCCCC" width="100%">
+<tr>
+	<td>Application No</td>
+	<td>Queue</td>
+	<td>Status</td>
+	<td>External Flag</td>
+	<td>Remark</td>
+	<td>Seq</td>
+	<td>Sub Seq</td>
+</tr>	
+<tr th:each="qflowRpt : ${item.tbQflowrptList}" >
+	<td th:text="${qflowRpt.qfrAppno}">Application No</td>
+	<td th:text="${qflowRpt.qfrPrmid}">Queue</td>
+	<td th:text="${qflowRpt.qfrProcessstatus}">Status</td>
+	<td th:text="${qflowRpt.qfrExternalsendflag}">External Flag</td>
+	<td th:text="${qflowRpt.qfrRemark}">Remark</td>
+	<td th:text="${qflowRpt.qfrSeq}">Seq</td>
+	<td th:text="${qflowRpt.qfrSubseq}">Sub Seq</td>
+</tr>
+</table>
+
+<hr/>
+FC Request
+<table  border="1px solid #CCCCCC" width="100%">
+<tr>
+	<td>Queue</td>
+	<td>Request Status</td>
+	<td>Request XML</td>
+</tr>	
+<tr th:each="fcRequest : ${item.tbFcreportrequestList}" >
+	<td th:text="${fcRequest.frrqQprmid}">Queue</td>
+	<td th:text="${fcRequest.frrqRequeststatus}">Request Status</td>
+	<td >
+		<textarea cols="120" rows="10" th:text="${fcRequest.frrqRequestxml}"></textarea>
+	</td>
+</tr>
+</table>
+
+<hr/>
+FC Response
+<table  border="1px solid #CCCCCC" width="100%">
+<tr>
+	<td>Queue</td>
+	<td>Status</td>
+	<td>Direction</td>
+	<td>Remark</td>
+	<td>Response XML</td>
+</tr>	
+<tr th:each="fcResponse : ${item.tbFcreportresponseList}" >
+	<td th:text="${fcResponse.fcrpQprmid}">Queue</td>
+	<td th:text="${fcResponse.fcrpStatuscode}">Request Status</td>
+	<td th:text="${fcResponse.fcrpDirection}">Direction</td>
+	<td th:text="${fcResponse.fcrpRemark}">Remark</td>
+	<td >
+		<textarea cols="120" rows="10" th:text="${fcResponse.fcrpRespondxml}"></textarea>
+	</td>
+</tr>
 </table>
 </div>
 </html>

@@ -12,5 +12,8 @@
 			<attribute name="owner.project.facets" value="#system#;jpt.jpa"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Mach3/lib/db2java.zip"/>
+	<classpathentry kind="lib" path="/Mach3/lib/db2jcc_license_cu.jar"/>
+	<classpathentry kind="lib" path="/Mach3/lib/db2jcc.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
