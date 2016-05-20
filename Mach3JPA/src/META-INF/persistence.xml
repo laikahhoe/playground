@@ -13,6 +13,19 @@
 		<class>com.icefive.model.db.jpa.common.TbCifemphistPK</class>
 		<class>com.icefive.model.db.jpa.fbchecking.TbFcreportrequest</class>
 		<class>com.icefive.model.db.jpa.fbchecking.TbFcreportrespond</class>
+		<class>com.icefive.model.db.jpa.common.TbCcdetail</class>
+		<class>com.icefive.model.db.jpa.master.TbmCreditlimitcode</class>
+		<class>com.icefive.model.db.jpa.master.TbmCreditlimitcodePK</class>
+		<class>com.icefive.model.db.jpa.master.TbmBusinessrelation</class>
+		<class>com.icefive.model.db.jpa.master.TbmBusinessrelationPK</class>
+		<class>com.icefive.model.db.jpa.master.TbmBusinessmatch</class>
+		<class>com.icefive.model.db.jpa.master.TbmBusinessmatch35</class>
+		<class>com.icefive.model.db.jpa.master.TbmProcesscategory</class>
+		<class>com.icefive.model.db.jpa.master.TbmProcesscategoryPK</class>
+		<class>com.icefive.model.db.jpa.master.TbmProcesscategorytype</class>
+		<class>com.icefive.model.db.jpa.master.TbmNamecode</class>
+		<class>com.icefive.model.db.jpa.master.TbmNamecodeMY09</class>
+		<class>com.icefive.model.db.jpa.master.TbmNamecodePK</class>
 		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<properties>

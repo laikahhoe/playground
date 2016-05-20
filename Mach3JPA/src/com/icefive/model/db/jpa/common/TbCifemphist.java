@@ -1,7 +1,9 @@
 package com.icefive.model.db.jpa.common;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,7 +13,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="TB_CIFEMPHIST")
+@Table(name="TB_CIFEMPHIST",schema="COMMON")
 @NamedQuery(name="TbCifemphist.findAll", query="SELECT t FROM TbCifemphist t")
 public class TbCifemphist implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -69,6 +71,23 @@ public class TbCifemphist implements Serializable {
 
 	@Column(name="CFEM_YEAROFSERVICE")
 	private BigDecimal cfemYearofservice;
+	
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="CFEM_CIFNO", insertable= false, updatable=false)
+	private TbCif tbcif;
+	
+	
+	
+	
+
+	public TbCif getTbcif() {
+		return tbcif;
+	}
+
+	public void setTbcif(TbCif tbcif) {
+		this.tbcif = tbcif;
+	}
 
 	public TbCifemphist() {
 	}

@@ -184,6 +184,19 @@ public class TbCif implements Serializable {
 	private String cifVehicleno;
 	
 	@OneToMany(mappedBy="tbcif")
+	private List<TbCifemphist> tbCifemphistList;
+	
+	
+	
+	public List<TbCifemphist> getTbCifemphistList() {
+		return tbCifemphistList;
+	}
+
+	public void setTbCifemphistList(List<TbCifemphist> tbCifemphistList) {
+		this.tbCifemphistList = tbCifemphistList;
+	}
+
+	@OneToMany(mappedBy="tbcif")
 	private List<TbCifaddid> tbCifaddidList;
 	
 	public List<TbCifaddid> getTbCifaddidList() {

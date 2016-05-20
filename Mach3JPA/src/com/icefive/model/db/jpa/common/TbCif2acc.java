@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="TB_CIF2ACC")
+@Table(name="TB_CIF2ACC",schema="COMMON")
 @NamedQuery(name="TbCif2acc.findAll", query="SELECT t FROM TbCif2acc t")
 public class TbCif2acc implements Serializable {
 	private static final long serialVersionUID = 1L;

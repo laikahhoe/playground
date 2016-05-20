@@ -1,74 +1,171 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
 
 <div layout:fragment="content">
-<table border="1px solid #CCCCCC" width="100%">
-<tr><td width="30%">Application No</td><td th:text="${item.clrAppno}"></td></tr>
-<tr><td>Current Queue</td><td th:text="${item.tbmQparam.qprmQname}"></td></tr>
-<tr><td>Status</td><td th:text="${item.clrStatus}"></td></tr>
-<tr><td>CIF No</td><td th:text="${item.clrCifno}"></td></tr>
-<tr><td>CIF Name</td><td th:text="${item.tbCif.cifName1}"></td></tr>
-<tr><td>New IC</td><td th:text="${item.tbCif.newIc!=null}?${item.tbCif.newIc.id.cfaiIdno}">Null</td></tr>
-<tr><td>Old IC</td><td th:text="${item.tbCif.oldIc!=null}?${item.tbCif.oldIc.id.cfaiIdno}">Null</td></tr>
-</table>
-<hr/>
-QFlowRpt
-<table  border="1px solid #CCCCCC" width="100%">
-<tr>
-	<td>Application No</td>
-	<td>Queue</td>
-	<td>Status</td>
-	<td>External Flag</td>
-	<td>Remark</td>
-	<td>Seq</td>
-	<td>Sub Seq</td>
-</tr>	
-<tr th:each="qflowRpt : ${item.tbQflowrptList}" >
-	<td th:text="${qflowRpt.qfrAppno}">Application No</td>
-	<td th:text="${qflowRpt.qfrPrmid}">Queue</td>
-	<td th:text="${qflowRpt.qfrProcessstatus}">Status</td>
-	<td th:text="${qflowRpt.qfrExternalsendflag}">External Flag</td>
-	<td th:text="${qflowRpt.qfrRemark}">Remark</td>
-	<td th:text="${qflowRpt.qfrSeq}">Seq</td>
-	<td th:text="${qflowRpt.qfrSubseq}">Sub Seq</td>
-</tr>
-</table>
 
-<hr/>
-FC Request
-<table  border="1px solid #CCCCCC" width="100%">
-<tr>
-	<td>Queue</td>
-	<td>Request Status</td>
-	<td>Request XML</td>
-</tr>	
-<tr th:each="fcRequest : ${item.tbFcreportrequestList}" >
-	<td th:text="${fcRequest.frrqQprmid}">Queue</td>
-	<td th:text="${fcRequest.frrqRequeststatus}">Request Status</td>
-	<td >
-		<textarea cols="120" rows="10" th:text="${fcRequest.frrqRequestxml}"></textarea>
-	</td>
-</tr>
-</table>
+	<div class="tabs">
+		<ul>
+			<li><a href="#tabs-1">Aclr Information</a></li>
+			<li><a href="#tabs-2">Cif Information</a></li>
+			<li><a href="#tabs-3">External Checking</a></li>
+			<li><a href="#tabs-4">Card Detail</a></li>
+		</ul>
+		<div id="tabs-1">
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td width="30%">Application No</td>
+					<td th:text="${item.clrAppno}"></td>
+				</tr>
+				<tr>
+					<td>Current Queue</td>
+					<td th:text="${item.tbmQparam.qprmQname}"></td>
+				</tr>
+				<tr>
+					<td>Status</td>
+					<td th:text="${item.clrStatus}"></td>
+				</tr>
+				<tr>
+					<td>CIF No</td>
+					<td th:text="${item.clrCifno}"></td>
+				</tr>
+				<tr>
+					<td>CIF Name</td>
+					<td th:text="${item.tbCif.cifName1}"></td>
+				</tr>
+				<tr>
+					<td>New IC</td>
+					<td
+						th:text="${item.tbCif.newIc!=null}?${item.tbCif.newIc.id.cfaiIdno}">Null</td>
+				</tr>
+				<tr>
+					<td>Old IC</td>
+					<td
+						th:text="${item.tbCif.oldIc!=null}?${item.tbCif.oldIc.id.cfaiIdno}">Null</td>
+				</tr>
+				<tr>
+					<td>Current Limit</td>
+					<td th:text="${item.currentLimit.clcShoplimit}"></td>
+				</tr>
+				<tr>
+					<td>Proposed Limit</td>
+					<td th:text="${item.proposedLimit.clcShoplimit}"></td>
+				</tr>
+			</table>
+			<hr />
+			QFlowRpt
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<th>Application No</th>
+					<th>Queue</th>
+					<th>Status</th>
+					<th>External Flag</th>
+					<th>Remark</th>
+					<th>Seq</th>
+					<th>Sub Seq</th>
+				</tr>
+				<tr th:each="qflowRpt : ${item.tbQflowrptList}">
+					<td th:text="${qflowRpt.qfrAppno}">Application No</td>
+					<td th:text="${qflowRpt.qfrPrmid}">Queue</td>
+					<td th:text="${qflowRpt.qfrProcessstatus}">Status</td>
+					<td th:text="${qflowRpt.qfrExternalsendflag}">External Flag</td>
+					<td th:text="${qflowRpt.qfrRemark}">Remark</td>
+					<td th:text="${qflowRpt.qfrSeq}">Seq</td>
+					<td th:text="${qflowRpt.qfrSubseq}">Sub Seq</td>
+				</tr>
+			</table>
+		</div>
+		<div id="tabs-2">
+		
+		<table border="1px solid #CCCCCC" width="100%">
+			<tr>
+				<th>Employment Type</th>
+				<th>Employee Name</th>
+				<th>Gross Salary (Month)</th>
+				<th>Net Salary (Month)</th>
+				<th>Annual Income</th>
+			</tr>
+			<tr th:each="tbCifemphist : ${item.tbCif.tbCifemphistList}">
+				<td th:text="${tbCifemphist.id.cfemEmptype}"></td>
+				<td th:text="${tbCifemphist.id.cfemEmployername1}"></td>
+				<td th:text="${tbCifemphist.cfemNetmonthlysalary}" ></td>
+				<td th:text="${tbCifemphist.cfemGrossmonthlysalary}" ></td>
+				<td th:text="${tbCifemphist.cfemAnnualincome}" ></td>
+			</tr>
+		</table>
+		
+		
+		</div>
+		<div id="tabs-3">
+			FC Request
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td>Queue</td>
+					<td>Request Status</td>
+					<td>Request XML</td>
+				</tr>
+				<tr th:each="fcRequest : ${item.tbFcreportrequestList}">
+					<td th:text="${fcRequest.frrqQprmid}">Queue</td>
+					<td th:text="${fcRequest.frrqRequeststatus}">Request Status</td>
+					<td><textarea cols="100" rows="17" style="font-size: 8pt"
+							th:text="${fcRequest.frrqRequestxml}"></textarea></td>
+				</tr>
+			</table>
 
-<hr/>
-FC Response
-<table  border="1px solid #CCCCCC" width="100%">
-<tr>
-	<td>Queue</td>
-	<td>Status</td>
-	<td>Direction</td>
-	<td>Remark</td>
-	<td>Response XML</td>
-</tr>	
-<tr th:each="fcResponse : ${item.tbFcreportresponseList}" >
-	<td th:text="${fcResponse.fcrpQprmid}">Queue</td>
-	<td th:text="${fcResponse.fcrpStatuscode}">Request Status</td>
-	<td th:text="${fcResponse.fcrpDirection}">Direction</td>
-	<td th:text="${fcResponse.fcrpRemark}">Remark</td>
-	<td >
-		<textarea cols="120" rows="10" th:text="${fcResponse.fcrpRespondxml}"></textarea>
-	</td>
-</tr>
-</table>
+			<hr />
+			FC Response
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td>Queue</td>
+					<td>Status</td>
+					<td>Direction</td>
+					<td>Remark</td>
+					<td>Response XML</td>
+				</tr>
+				<tr th:each="fcResponse : ${item.tbFcreportresponseList}">
+					<td th:text="${fcResponse.fcrpQprmid}">Queue</td>
+					<td th:text="${fcResponse.fcrpStatuscode}">Request Status</td>
+					<td th:text="${fcResponse.fcrpDirection}">Direction</td>
+					<td th:text="${fcResponse.fcrpRemark}">Remark</td>
+					<td><textarea cols="80" rows="17" style="font-size: 8pt"
+							th:text="${fcResponse.fcrpRespondxml}"></textarea></td>
+				</tr>
+			</table>
+		</div>
+		<div id="tabs-4">
+		<div th:if="${item != null and item.tbCcdetail != null}">
+		<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td width="30%">Card No</td>
+					<td th:text="${item.tbCcdetail.ccdCreditcardno}"></td>
+				</tr>
+				<tr>
+					<td>Card Type</td>
+					<td th:text="${item.tbCcdetail.tbmBusinessrelation!=null}?(${item.tbCcdetail.tbmBusinessrelation.cardType!=null}?${item.tbCcdetail.tbmBusinessrelation.cardType.nmcdName})"></td>										
+				</tr>
+				<tr>
+					<td>Business Code</td>
+					<td th:text="${item.tbCcdetail.ccdBusinesscode}"></td>
+				</tr>
+				<tr>
+					<td>Hold Code</td>
+					<td th:text="${item.tbCcdetail.ccdHoldcode}"></td>
+				</tr>
+				<tr>
+					<td>Limit Code</td>
+					<td th:text="${item.tbCcdetail.ccdFlorlimitcode}"></td>
+				</tr>
+				<tr>
+					<td>Shopping Limit</td>
+					<td
+						th:text="${item.tbCcdetail.tbmCreditlimitcode!=null}?${item.tbCcdetail.tbmCreditlimitcode.clcShoplimit}">Null</td>
+				</tr>
+				<tr>
+					<td>Cash Limit</td>
+					<td
+						th:text="${item.tbCcdetail.tbmCreditlimitcode!=null}?${item.tbCcdetail.tbmCreditlimitcode.clcCashlimit}">Null</td>
+				</tr>
+			</table>
+			</div>
+		</div>
+	</div>
 </div>
 </html>

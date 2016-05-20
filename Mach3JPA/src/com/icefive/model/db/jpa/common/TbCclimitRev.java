@@ -10,6 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -24,6 +28,7 @@ import org.eclipse.persistence.annotations.ReadOnly;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrequest;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrespond;
 import com.icefive.model.db.jpa.fbchecking.TbQflowrpt;
+import com.icefive.model.db.jpa.master.TbmCreditlimitcode;
 import com.icefive.model.db.jpa.master.TbmQparam;
 
 
@@ -160,6 +165,51 @@ public class TbCclimitRev implements Serializable {
 		this.tbCif = tbCif;
 	}
 	
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLR_CARDNO",updatable=false, insertable=false)
+	private TbCcdetail tbCcdetail;
+	
+	
+	public TbCcdetail getTbCcdetail() {
+		return tbCcdetail;
+	}
+
+
+	public void setTbCcdetail(TbCcdetail tbCcdetail) {
+		this.tbCcdetail = tbCcdetail;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLC_CREDITLIMITCODE2", referencedColumnName="CLR_CURRENT_LIMIT_CODE")
+	private List<TbmCreditlimitcode> currentLimitList;
+	
+	public TbmCreditlimitcode getCurrentLimit() {
+		if(currentLimitList!=null && !currentLimitList.isEmpty()){
+			for(TbmCreditlimitcode c: currentLimitList){
+				if(c.getId().getClcCreditlimitcode1().equals(this.tbCcdetail.getCcdBusinesscode())){
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLC_CREDITLIMITCODE2", referencedColumnName="CLR_PROPOSED_LIMIT_CODE")
+	private List<TbmCreditlimitcode> proposedLimitList;
+	
+	public TbmCreditlimitcode getProposedLimit() {
+		if(proposedLimitList!=null && !proposedLimitList.isEmpty()){
+			for(TbmCreditlimitcode c: proposedLimitList){
+				if(c.getId().getClcCreditlimitcode1().equals(this.tbCcdetail.getCcdBusinesscode())){
+					return c;
+				}
+			}
+		}
+		return null;
+	}
+	
+
 	@OneToMany(mappedBy="tbCclimitRev")
 	@OrderBy("qfrSeq ASC,qfrSubseq ASC")
 	private List<TbQflowrpt> tbQflowrptList;

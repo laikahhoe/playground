@@ -17,6 +17,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
+import com.icefive.model.bean.ACLRReport;
 import com.icefive.model.db.jpa.common.TbCclimitRev;
 
 public class AclrDao {
@@ -116,6 +117,37 @@ public class AclrDao {
 		Root<TbCclimitRev> clr=  cq.from(TbCclimitRev.class);
 		Expression whereClause =genFilter(cb, clr, appNo, qid, submissionDate);
 		cq.select(clr).where(whereClause);
+		Query q =em.createQuery(cq);
+		if(appNo!=null){
+			q.setParameter("clrAppno", appNo+"%");
+		}
+		if(qid!=null){
+			q.setParameter("clrPrmid", qid);
+		}
+		if(submissionDate!=null){
+			Calendar c1 = new GregorianCalendar();
+			c1.setTime(submissionDate);
+			c1.set(Calendar.HOUR, 0);
+			c1.set(Calendar.MINUTE, 0);
+			c1.set(Calendar.SECOND, 0);
+			c1.set(Calendar.MILLISECOND, 0);
+			Calendar c2 = (Calendar)c1.clone();
+			c2.add(Calendar.DATE, 1);
+			
+			q.setParameter("clrSubmittedDateFrom", c1.getTime());
+			q.setParameter("clrSubmittedDateTo", c2.getTime());
+		}
+		q.setMaxResults(maxRow);
+		return q.getResultList();	
+	}
+	
+	public List<TbCclimitRev> findForReport(int maxRow, String appNo, Integer qid, Date submissionDate){
+		EntityManager em = getEMF().createEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<ACLRReport> cq = cb.createQuery(ACLRReport.class);
+		Root<TbCclimitRev> clr=  cq.from(TbCclimitRev.class);
+		Expression whereClause =genFilter(cb, clr, appNo, qid, submissionDate);
+		cq.multiselect(clr.get("clrPrmid"),cb.count(clr)).where(whereClause).groupBy(clr.get("clrPrmid"));
 		Query q =em.createQuery(cq);
 		if(appNo!=null){
 			q.setParameter("clrAppno", appNo+"%");
