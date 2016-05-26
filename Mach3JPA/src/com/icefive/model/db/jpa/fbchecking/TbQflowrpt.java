@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.icefive.model.db.jpa.common.TbCclimitRev;
 import com.icefive.model.db.jpa.common.TbCif;
+import com.icefive.model.db.jpa.master.TbmQparam;
 
 
 /**
@@ -111,6 +112,19 @@ public class TbQflowrpt implements Serializable {
 
 	public void setTbCclimitRev(TbCclimitRev tbCclimitRev) {
 		this.tbCclimitRev = tbCclimitRev;
+	}
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="QFR_PRMID", insertable= false, updatable = false)
+	private TbmQparam tbmQparam;
+ 
+
+	public TbmQparam getTbmQparam() {
+		return tbmQparam;
+	}
+
+	public void setTbmQparam(TbmQparam tbmQparam) {
+		this.tbmQparam = tbmQparam;
 	}
 
 	public TbQflowrpt() {

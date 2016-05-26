@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -19,12 +21,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.eclipse.persistence.annotations.ReadOnly;
 
+import com.icefive.model.bean.ACLRReport;
+import com.icefive.model.bean.ACLRStaffReport;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrequest;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrespond;
 import com.icefive.model.db.jpa.fbchecking.TbQflowrpt;
@@ -44,6 +50,35 @@ import com.icefive.model.db.jpa.master.TbmQparam;
     			query="SELECT t FROM TbCclimitRev t WHERE t.clrSubmittedDate >= :clrSubmittedDateStartTime and t.clrSubmittedDate < :clrSubmittedDateEndTime ")
 	
 }) 
+@SqlResultSetMappings({
+@SqlResultSetMapping(name="QueueReport",
+	classes={
+		@ConstructorResult(
+			     targetClass=ACLRReport.class,
+			       columns={
+			          @ColumnResult(name="CLR_PRMID", type=Integer.class),
+			          @ColumnResult(name="QPRM_QNAME", type=String.class),
+			          @ColumnResult(name="total", type=Long.class),
+			          }
+			   ),
+	   
+			}
+		),
+		@SqlResultSetMapping(name="QueueStaffReport",
+		classes={
+			   @ConstructorResult(
+					     targetClass=ACLRStaffReport.class,
+					       columns={
+					          @ColumnResult(name="PJH_JUDGEDBY", type=String.class),
+					          @ColumnResult(name="USER_NAME", type=String.class),
+					          @ColumnResult(name="JUDGE_ACTION", type=String.class),
+					          @ColumnResult(name="TOTAL", type=Long.class),
+					          }
+					   )
+					}
+				)
+}
+)
 public class TbCclimitRev implements Serializable {
 	private static final long serialVersionUID = 1L;
 

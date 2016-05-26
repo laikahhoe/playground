@@ -1,5 +1,8 @@
 package com.icefive.controller;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.icefive.dao.AclrDao;
 import com.icefive.model.ACLRForm;
+import com.icefive.model.bean.ACLRStaffReport;
 import com.icefive.model.db.jpa.common.TbCclimitRev;
 
 @Controller
@@ -38,12 +42,32 @@ public class ACLRController {
 	@RequestMapping("/ACLR/Report")
 	public String report(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {
 		AclrDao dao = new AclrDao();
-		if(aclrForm.clrAppno!=null){
-			List cclimitRevList = dao.findAllCClimitRev(100, aclrForm.clrAppno,aclrForm.clrPrmid, aclrForm.clrSubmittedDate);
-			model.addAttribute("list", cclimitRevList);	
+		Calendar c = new GregorianCalendar();
+		Date prevDate = null;
+		if(aclrForm.clrSubmittedDate==null){
+			aclrForm.clrSubmittedDate = new Date();	
 		}
+		c.setTime(aclrForm.clrSubmittedDate);
+		c.add(Calendar.DATE, -1);
+		prevDate = c.getTime();
 		
+		List cclimitRevList = dao.findForReport(100, aclrForm.clrAppno,aclrForm.clrPrmid, aclrForm.clrSubmittedDate);
+		List cclimitRevListPrev = dao.findForReport(100, aclrForm.clrAppno,aclrForm.clrPrmid, prevDate);
+		model.addAttribute("list", cclimitRevList);
+		model.addAttribute("prevDate", prevDate);
+		model.addAttribute("listPrev", cclimitRevListPrev);
         return "aclr_report";
+    }
+	
+	@RequestMapping("/ACLR/StaffReport")
+	public String staffReport(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {
+		AclrDao dao = new AclrDao();
+		if(aclrForm.clrSubmittedDate==null){
+			aclrForm.clrSubmittedDate = new Date();	
+		}
+		List<ACLRStaffReport> cclimitRevList = dao.findForStaffReport(aclrForm.clrSubmittedDate);
+		model.addAttribute("list", cclimitRevList);
+        return "aclr_staff_report";
     }
 	
 	

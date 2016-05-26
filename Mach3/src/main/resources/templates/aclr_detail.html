@@ -54,7 +54,7 @@
 			QFlowRpt
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<th>Application No</th>
+					<th>Check In Date</th>
 					<th>Queue</th>
 					<th>Status</th>
 					<th>External Flag</th>
@@ -63,8 +63,8 @@
 					<th>Sub Seq</th>
 				</tr>
 				<tr th:each="qflowRpt : ${item.tbQflowrptList}">
-					<td th:text="${qflowRpt.qfrAppno}">Application No</td>
-					<td th:text="${qflowRpt.qfrPrmid}">Queue</td>
+					<td th:text="${qflowRpt.qfrCheckedindate}">Application No</td>
+					<td th:text="${qflowRpt.tbmQparam.qprmQname} + '(' + ${qflowRpt.qfrPrmid} + ')'" >Queue</td>
 					<td th:text="${qflowRpt.qfrProcessstatus}">Status</td>
 					<td th:text="${qflowRpt.qfrExternalsendflag}">External Flag</td>
 					<td th:text="${qflowRpt.qfrRemark}">Remark</td>

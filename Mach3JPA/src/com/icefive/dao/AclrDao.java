@@ -18,6 +18,7 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 import com.icefive.model.bean.ACLRReport;
+import com.icefive.model.bean.ACLRStaffReport;
 import com.icefive.model.db.jpa.common.TbCclimitRev;
 
 public class AclrDao {
@@ -141,35 +142,78 @@ public class AclrDao {
 		return q.getResultList();	
 	}
 	
-	public List<TbCclimitRev> findForReport(int maxRow, String appNo, Integer qid, Date submissionDate){
+	public List<ACLRStaffReport> findForStaffReport(Date submissionDate){
 		EntityManager em = getEMF().createEntityManager();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<ACLRReport> cq = cb.createQuery(ACLRReport.class);
-		Root<TbCclimitRev> clr=  cq.from(TbCclimitRev.class);
-		Expression whereClause =genFilter(cb, clr, appNo, qid, submissionDate);
-		cq.multiselect(clr.get("clrPrmid"),cb.count(clr)).where(whereClause).groupBy(clr.get("clrPrmid"));
-		Query q =em.createQuery(cq);
-		if(appNo!=null){
-			q.setParameter("clrAppno", appNo+"%");
-		}
-		if(qid!=null){
-			q.setParameter("clrPrmid", qid);
-		}
-		if(submissionDate!=null){
-			Calendar c1 = new GregorianCalendar();
-			c1.setTime(submissionDate);
-			c1.set(Calendar.HOUR, 0);
-			c1.set(Calendar.MINUTE, 0);
-			c1.set(Calendar.SECOND, 0);
-			c1.set(Calendar.MILLISECOND, 0);
-			Calendar c2 = (Calendar)c1.clone();
-			c2.add(Calendar.DATE, 1);
-			
-			q.setParameter("clrSubmittedDateFrom", c1.getTime());
-			q.setParameter("clrSubmittedDateTo", c2.getTime());
-		}
-		q.setMaxResults(maxRow);
-		return q.getResultList();	
+		Query query = em.createNativeQuery(
+				" select H.PJH_JUDGEDBY, "
+				+ " U.USER_NAME,"
+				+ " C.NMCD_NAME AS JUDGE_ACTION, "
+				+ " COUNT(*) AS TOTAL from COMMON.TB_CCLIMIT_REV R  " 
+				+ " INNER JOIN ASSESSMENT.TB_PREJUDGEHIST H "
+				+ " ON H.PJH_APPNO = R.CLR_APPNO "
+				+ " INNER JOIN COMMON.TB_USER U "
+				+ " ON U.USER_USERID = H.PJH_JUDGEDBY "
+				+ " INNER JOIN MASTER.TBM_NAMECODE C "
+				+ " ON C.NMCD_VALUE = H.PJH_JUDGESTATUS "
+				+ " AND C.NMCD_NMCDCODE = 'AS07' "
+				+ " WHERE  DATE(CLR_SUBMITTED_DATE) = ? " 
+				+ " GROUP BY H.PJH_JUDGEDBY, U.USER_NAME,C.NMCD_NAME ORDER BY H.PJH_JUDGEDBY ASC ","QueueStaffReport");
+	    query.setParameter(1, submissionDate,TemporalType.DATE);
+		List<ACLRStaffReport> result= query.getResultList();
+		return result;
+	}
+	
+	public List<ACLRReport> findForReportPrevDay(int maxRow, String appNo, Integer qid, Date submissionDate){
+		EntityManager em = getEMF().createEntityManager();
+		Query query = em.createNativeQuery("select R.CLR_PRMID, QPRM_QNAME, count(*) as TOTAL "
+				+ "from COMMON.TB_CCLIMIT_REV R"
+				+ " inner join MASTER.TBM_QPARAM Q"
+				+ " on Q.QPRM_QPRMID = R.CLR_PRMID"
+				+ " WHERE DATE(CLR_SUBMITTED_DATE) = (CURRENT DATE - 1 DAYS) GROUP BY CLR_PRMID, QPRM_QNAME",  "QueueReport");
+		List<ACLRReport> result= query.getResultList();
+		return result;
+	}
+	
+	public List<ACLRReport> findForReport(int maxRow, String appNo, Integer qid, Date submissionDate){
+		EntityManager em = getEMF().createEntityManager();
+		Query query = em.createNativeQuery("select R.CLR_PRMID, QPRM_QNAME, count(*) as TOTAL "
+				+ "from COMMON.TB_CCLIMIT_REV R"
+				+ " inner join MASTER.TBM_QPARAM Q"
+				+ " on Q.QPRM_QPRMID = R.CLR_PRMID"
+				+ " WHERE DATE(CLR_SUBMITTED_DATE) = ? GROUP BY CLR_PRMID, QPRM_QNAME",  "QueueReport");
+		query.setParameter(1, submissionDate,TemporalType.DATE);
+		List<ACLRReport> result= query.getResultList();
+		
+		return result;
+		
+//		EntityManager em = getEMF().createEntityManager();
+//		CriteriaBuilder cb = em.getCriteriaBuilder();
+//		CriteriaQuery<ACLRReport> cq = cb.createQuery(ACLRReport.class);
+//		Root<TbCclimitRev> clr=  cq.from(TbCclimitRev.class);
+//		Expression whereClause =genFilter(cb, clr, appNo, qid, submissionDate);
+//		cq.multiselect(clr.get("clrPrmid"),cb.count(clr)).where(whereClause).groupBy(clr.get("clrPrmid"));
+//		Query q =em.createQuery(cq);
+//		if(appNo!=null){
+//			q.setParameter("clrAppno", appNo+"%");
+//		}
+//		if(qid!=null){
+//			q.setParameter("clrPrmid", qid);
+//		}
+//		if(submissionDate!=null){
+//			Calendar c1 = new GregorianCalendar();
+//			c1.setTime(submissionDate);
+//			c1.set(Calendar.HOUR, 0);
+//			c1.set(Calendar.MINUTE, 0);
+//			c1.set(Calendar.SECOND, 0);
+//			c1.set(Calendar.MILLISECOND, 0);
+//			Calendar c2 = (Calendar)c1.clone();
+//			c2.add(Calendar.DATE, 1);
+//			
+//			q.setParameter("clrSubmittedDateFrom", c1.getTime());
+//			q.setParameter("clrSubmittedDateTo", c2.getTime());
+//		}
+//		q.setMaxResults(maxRow);
+//		return q.getResultList();	
 	}
 	
 	public List<TbCclimitRev> findAllCClimitRevBySubmittedDate(int maxRow, Timestamp submittedDate){
