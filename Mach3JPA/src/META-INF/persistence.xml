@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="Mach3JPA">
+		
 		<class>com.icefive.model.db.jpa.fbchecking.TbQflowrpt</class>
 		<class>com.icefive.model.db.jpa.common.TbCclimitRev</class>
 		<class>com.icefive.model.db.jpa.master.TbmQparam</class>
@@ -25,9 +26,14 @@
 		<class>com.icefive.model.db.jpa.master.TbmProcesscategorytype</class>
 		<class>com.icefive.model.db.jpa.master.TbmNamecode</class>
 		<class>com.icefive.model.db.jpa.master.TbmNamecodeMY09</class>
+		<class>com.icefive.model.db.jpa.master.TbmNamecodeAS07</class>
 		<class>com.icefive.model.db.jpa.master.TbmNamecodePK</class>
-		
+		<class>com.icefive.model.db.jpa.fbchecking.TbSccappreq</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbSccapprespond</class>
+		<class>com.icefive.model.db.jpa.assessment.TbPrejudgehist</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbFcmultipleentity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
             <property name="javax.persistence.jdbc.driver" value="com.ibm.db2.jcc.DB2Driver"/>
             <!--  <property name="javax.persistence.jdbc.url" value="jdbc:db2://200.1.4.70:8001/LOSDEV"/>
@@ -38,6 +44,7 @@
             <property name="javax.persistence.jdbc.user" value="batchusr"/>
             <property name="javax.persistence.jdbc.password" value="Aeon1234"/>
         </properties>
+        
 	</persistence-unit>
 	
 

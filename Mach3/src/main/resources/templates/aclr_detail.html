@@ -7,7 +7,9 @@
 			<li><a href="#tabs-1">Aclr Information</a></li>
 			<li><a href="#tabs-2">Cif Information</a></li>
 			<li><a href="#tabs-3">External Checking</a></li>
-			<li><a href="#tabs-4">Card Detail</a></li>
+			<li><a href="#tabs-4">Scoring</a></li>
+			<li><a href="#tabs-5">Card Detail</a></li>
+			<li><a href="#tabs-6">Judge History</a></li>
 		</ul>
 		<div id="tabs-1">
 			<table border="1px solid #CCCCCC" width="100%">
@@ -30,6 +32,10 @@
 				<tr>
 					<td>CIF Name</td>
 					<td th:text="${item.tbCif.cifName1}"></td>
+				</tr>
+				<tr>
+					<td>CIF_SELFEMPLOY</td>
+					<td th:text="${item.tbCif.cifSelfemploy}"></td>
 				</tr>
 				<tr>
 					<td>New IC</td>
@@ -129,8 +135,61 @@
 							th:text="${fcResponse.fcrpRespondxml}"></textarea></td>
 				</tr>
 			</table>
+			<hr />
+			Multiple Entity
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td>Name</td>
+					<td>ID NO</td>
+					<td>Entity Key</td>
+					<td>Select Flag</td>
+					<td>Force Add Flag</td>
+				</tr>
+				<tr th:each="tbFcmultipleentity : ${item.tbFcmultipleentityList}">
+					<td th:text="${tbFcmultipleentity.mulName}">Name</td>
+					<td th:text="${tbFcmultipleentity.mulIdno}">ID NO</td>
+					<td th:text="${tbFcmultipleentity.mulEntitykey}">Entity Key</td>
+					<td th:text="${tbFcmultipleentity.mulSelectflag}">Select Flag</td>
+					<td th:text="${tbFcmultipleentity.mulForceaddflag}">Force Add Flag</td>
+				</tr>
+			</table>
+			
 		</div>
 		<div id="tabs-4">
+			Scoring Request
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td>Request ID</td>
+					<td>Request Status</td>
+					<td>Request XML</td>
+				</tr>
+				<tr th:each="sccappreq : ${item.tbSccappreqList}">
+					<td th:text="${sccappreq.sarqSarqid}">Queue</td>
+					<td th:text="${sccappreq.sarqRequeststatus}">Request Status</td>
+					<td><textarea cols="100" rows="17" style="font-size: 8pt"
+							th:text="${sccappreq.sarqRequestxml}"></textarea></td>
+				</tr>
+			</table>
+
+			<hr />
+			Scoring Response
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<td>Request ID</td>
+					<td>Status</td>
+					<td>Remark</td>
+					<td>Response XML</td>
+				</tr>
+				<tr th:each="sccapprespond : ${item.tbSccapprespondList}">
+					<td th:text="${sccapprespond.sarpSarqid}">Queue</td>
+					<td th:text="${sccapprespond.sarpStatuscode}">Request Status</td>
+					<td th:text="${sccapprespond.sarpRemark}">Remark</td>
+					<td><textarea cols="80" rows="17" style="font-size: 8pt"
+							th:text="${sccapprespond.sarpRespondxml}"></textarea></td>
+				</tr>
+			</table>
+		</div>
+		<div id="tabs-5">
 		<div th:if="${item != null and item.tbCcdetail != null}">
 		<table border="1px solid #CCCCCC" width="100%">
 				<tr>
@@ -165,6 +224,25 @@
 				</tr>
 			</table>
 			</div>
+		</div>
+		<div id="tabs-6">
+		
+		<table border="1px solid #CCCCCC" width="100%">
+			<tr>
+				<th>Judge Date</th>
+				<th>Judge By</th>
+				<th>Judge Status</th>
+				<th>Remark</th>
+			</tr>
+			<tr th:each="tbPrejudgehist : ${item.tbPrejudgehistList}">
+				<td th:text="${tbPrejudgehist.pjhJudgeddate}"></td>
+				<td th:text="${tbPrejudgehist.pjhJudgedby}"></td>
+				<td th:text="${tbPrejudgehist.judgeStatus.nmcdFullname}" ></td>
+				<td th:text="${tbPrejudgehist.pjhJudgeremark}" ></td>
+			</tr>
+		</table>
+		
+		
 		</div>
 	</div>
 </div>

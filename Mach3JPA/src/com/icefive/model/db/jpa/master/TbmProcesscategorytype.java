@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="TBM_PROCESSCATEGORYTYPE")
+@Table(schema="MASTER", name="TBM_PROCESSCATEGORYTYPE")
 @NamedQuery(name="TbmProcesscategorytype.findAll", query="SELECT t FROM TbmProcesscategorytype t")
 public class TbmProcesscategorytype implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -12,10 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,13 +23,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.eclipse.persistence.annotations.ReadOnly;
-
 import com.icefive.model.bean.ACLRReport;
 import com.icefive.model.bean.ACLRStaffReport;
+import com.icefive.model.db.jpa.assessment.TbPrejudgehist;
+import com.icefive.model.db.jpa.fbchecking.TbFcmultipleentity;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrequest;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrespond;
 import com.icefive.model.db.jpa.fbchecking.TbQflowrpt;
+import com.icefive.model.db.jpa.fbchecking.TbSccappreq;
+import com.icefive.model.db.jpa.fbchecking.TbSccapprespond;
 import com.icefive.model.db.jpa.master.TbmCreditlimitcode;
 import com.icefive.model.db.jpa.master.TbmQparam;
 
@@ -284,6 +282,58 @@ public class TbCclimitRev implements Serializable {
 	public void setTbFcreportresponseList(
 			List<TbFcreportrespond> tbFcreportresponseList) {
 		this.tbFcreportresponseList = tbFcreportresponseList;
+	}
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbSccappreq> tbSccappreqList;
+	
+	public List<TbSccappreq> getTbSccappreqList() {
+		return tbSccappreqList;
+	}
+
+
+	public void setTbSccappreqList(List<TbSccappreq> tbSccappreqList) {
+		this.tbSccappreqList = tbSccappreqList;
+	}
+
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbSccapprespond> tbSccapprespondList;
+
+	public List<TbSccapprespond> getTbSccapprespondList() {
+		return tbSccapprespondList;
+	}
+
+
+	public void setTbSccapprespondList(List<TbSccapprespond> tbSccapprespondList) {
+		this.tbSccapprespondList = tbSccapprespondList;
+	}
+
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbPrejudgehist> tbPrejudgehistList;
+	
+
+	public List<TbPrejudgehist> getTbPrejudgehistList() {
+		return tbPrejudgehistList;
+	}
+
+
+	public void setTbPrejudgehistList(List<TbPrejudgehist> tbPrejudgehistList) {
+		this.tbPrejudgehistList = tbPrejudgehistList;
+	}
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbFcmultipleentity> tbFcmultipleentityList;
+
+	public List<TbFcmultipleentity> getTbFcmultipleentityList() {
+		return tbFcmultipleentityList;
+	}
+
+
+	public void setTbFcmultipleentityList(
+			List<TbFcmultipleentity> tbFcmultipleentityList) {
+		this.tbFcmultipleentityList = tbFcmultipleentityList;
 	}
 
 
