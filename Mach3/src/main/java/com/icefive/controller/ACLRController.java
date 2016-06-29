@@ -24,7 +24,7 @@ public class ACLRController {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	@RequestMapping("/ACLR")
+	@RequestMapping("/ACLR/Search")
 	public String index(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {
     //public String index(@ModelAttribute("tbCclimitRev")TbCclimitRev tbCclimitRev, Model model) {
 		
@@ -38,6 +38,26 @@ public class ACLRController {
 		
         return "aclr_listing";
     }
+	
+	@RequestMapping("/ACLR/MovementReport")
+	public String movementReport(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {
+		AclrDao dao = new AclrDao();
+		List list = dao.findForMovementReport();
+		model.addAttribute("list", list);
+        return "aclr_movement_report";
+    }
+	
+	@RequestMapping("/ACLR/AutoDeclineReport")
+	public String autoDeclineReport(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {
+		AclrDao dao = new AclrDao();
+		if(aclrForm.clrSubmittedDate==null){
+			aclrForm.clrSubmittedDate = new Date();	
+		}
+		List list = dao.findForAutoDeclineReport(aclrForm.clrSubmittedDate);
+		model.addAttribute("list", list);
+        return "aclr_autodecline_report";
+    }
+	
 	
 	@RequestMapping("/ACLR/Report")
 	public String report(@ModelAttribute("aclrForm")ACLRForm aclrForm, Model model) {

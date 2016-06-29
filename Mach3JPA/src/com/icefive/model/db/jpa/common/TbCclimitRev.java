@@ -23,10 +23,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.icefive.model.bean.ACLRAutoDeclineReport;
+import com.icefive.model.bean.ACLRMovementReport;
 import com.icefive.model.bean.ACLRReport;
 import com.icefive.model.bean.ACLRStaffReport;
 import com.icefive.model.db.jpa.assessment.TbPrejudgehist;
 import com.icefive.model.db.jpa.fbchecking.TbFcmultipleentity;
+import com.icefive.model.db.jpa.fbchecking.TbFcmulupdmaster;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrequest;
 import com.icefive.model.db.jpa.fbchecking.TbFcreportrespond;
 import com.icefive.model.db.jpa.fbchecking.TbQflowrpt;
@@ -71,6 +74,31 @@ import com.icefive.model.db.jpa.master.TbmQparam;
 					          @ColumnResult(name="USER_NAME", type=String.class),
 					          @ColumnResult(name="JUDGE_ACTION", type=String.class),
 					          @ColumnResult(name="TOTAL", type=Long.class),
+					          }
+					   )
+					}	
+		),
+		@SqlResultSetMapping(name="ACLRMovementReport",
+		classes={
+			   @ConstructorResult(
+					     targetClass=ACLRMovementReport.class,
+					       columns={
+					          @ColumnResult(name="D", type=Timestamp.class),
+					          @ColumnResult(name="NEW", type=Long.class),
+					          @ColumnResult(name="SUBMITTED", type=Long.class),
+					          @ColumnResult(name="PREAPPROVED", type=Long.class),
+					          @ColumnResult(name="FINALJUDGE", type=Long.class),
+					          }
+					   )
+					}
+		),
+		@SqlResultSetMapping(name="ACLRAutoDeclineReport",
+		classes={
+			   @ConstructorResult(
+					     targetClass=ACLRAutoDeclineReport.class,
+					       columns={
+					          @ColumnResult(name="CLR_APPNO", type=String.class),
+					          @ColumnResult(name="QFR_REMARK", type=String.class),
 					          }
 					   )
 					}
@@ -199,6 +227,32 @@ public class TbCclimitRev implements Serializable {
 	}
 	
 	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="CLR_APPNO",updatable=false, insertable=false)
+	private TbApp2totallimit tbApp2totallimit;
+	
+	public TbApp2totallimit getTbApp2totallimit() {
+		return tbApp2totallimit;
+	}
+	
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="APC_APPLICATIONNUMBER", referencedColumnName="CLR_APPNO",insertable=false, updatable=false)
+	private List<TbApp2commitment> tbApp2commitmentList;
+
+	public List<TbApp2commitment> getTbApp2commitmentList() {
+		return tbApp2commitmentList;
+	}
+
+
+	public void setTbApp2commitmentList(List<TbApp2commitment> tbApp2commitmentList) {
+		this.tbApp2commitmentList = tbApp2commitmentList;
+	}
+
+
+	public void setTbApp2totallimit(TbApp2totallimit tbApp2totallimit) {
+		this.tbApp2totallimit = tbApp2totallimit;
+	}
+
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="CLR_CARDNO",updatable=false, insertable=false)
 	private TbCcdetail tbCcdetail;
 	
@@ -213,7 +267,7 @@ public class TbCclimitRev implements Serializable {
 	}
 	
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="CLC_CREDITLIMITCODE2", referencedColumnName="CLR_CURRENT_LIMIT_CODE")
+	@JoinColumn(name="CLC_CREDITLIMITCODE2", referencedColumnName="CLR_CURRENT_LIMIT_CODE",insertable=false,updatable=false)
 	private List<TbmCreditlimitcode> currentLimitList;
 	
 	public TbmCreditlimitcode getCurrentLimit() {
@@ -334,6 +388,18 @@ public class TbCclimitRev implements Serializable {
 	public void setTbFcmultipleentityList(
 			List<TbFcmultipleentity> tbFcmultipleentityList) {
 		this.tbFcmultipleentityList = tbFcmultipleentityList;
+	}
+	
+	@OneToMany(mappedBy="tbCclimitRev")
+	private List<TbFcmulupdmaster> tbFcmulupdmasterList;
+
+	public List<TbFcmulupdmaster> getTbFcmulupdmasterList() {
+		return tbFcmulupdmasterList;
+	}
+
+	public void setTbFcmulupdmasterList(
+			List<TbFcmulupdmaster> tbFcmulupdmasterList) {
+		this.tbFcmulupdmasterList = tbFcmulupdmasterList;
 	}
 
 

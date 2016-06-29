@@ -1,25 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
 
 <div layout:fragment="content">
-<form th:action="@{/ACLR}" th:object="${aclrForm}" method="post">
+<form th:action="@{/ACLR/Report}" th:object="${aclrForm}" method="post">
 <table width="100%">
-<tr>
-	<td width="200px">Application No</td>
-	<td><input type="text" th:field="*{clrAppno}"/> </td>
-</tr>
-<tr>
-	<td width="200px">Queue</td>
-	<td><select th:field="*{clrPrmid}">
-	<option value="">-Select-</option>
-	<option value="2">Data Entry</option>
-	<option value="3">Outright Reject Queue</option>
-	<option value="4">Fraud Judge Queue</option>
-	<option value="12">Assessment</option>
-	<option value="17">CCRIS</option>
-	</select> </td>
-	
-</tr>
- 
 <tr>
 	<td width="200px">Submission Date</td>
 	<td><input th:field="*{clrSubmittedDate}" class="datepicker"/></td>
@@ -43,8 +26,8 @@
 		<td><div th:text="${clr.total}"></div> </td>
 	</tr>
 </table>
-
 <hr/>
+<div th:text="${clrSubmittedDate}"></div>
 <table width="100%" border="1px solid ">
 	<tr>
 	<th>Queue</th>

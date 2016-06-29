@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.icefive.model.db.jpa.common.TbCclimitRev;
+import com.icefive.model.db.jpa.common.TbUser;
 import com.icefive.model.db.jpa.master.TbmNamecodeAS07;
 import com.icefive.model.db.jpa.master.TbmNamecodeMY09;
 
@@ -94,6 +95,17 @@ public class TbPrejudgehist implements Serializable {
 		return judgeStatus;
 	}
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PJH_JUDGEDBY", referencedColumnName="USER_USERID",updatable=false,insertable=false)
+	private TbUser tbUser;
+
+	public TbUser getTbUser() {
+		return tbUser;
+	}
+
+	public void setTbUser(TbUser tbUser) {
+		this.tbUser = tbUser;
+	}
 
 	public TbPrejudgehist() {
 	}

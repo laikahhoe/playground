@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Fix addEventListener -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge;" />
 <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
 <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Task
 	List</title>
@@ -24,9 +26,9 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="./TaskCenter">Task Center</a></li>
+					<!-- <li class="active"><a href="./TaskCenter">Task Center</a></li>
 					<li><a href="./">About</a></li>
-					<li><a href="./">Contact</a></li>
+					<li><a href="./">Contact</a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -35,11 +37,13 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="/ACLR">ACLR
+					<li th:classappend="${#httpServletRequest.getRequestURI().startsWith('/ACLR/Search') ? 'active':''}"><a href="/ACLR/Search">ACLR
 							Search<span class="sr-only">(current)</span>
 					</a></li>
-					<li><a href="/ACLR/Report">ACLR Reports</a></li>
-					<li><a href="/ACLR/StaffReport">Staff Performance Report</a></li>
+					<li th:classappend="${#httpServletRequest.getRequestURI().startsWith('/ACLR/MovementReport') ? 'active':''}"><a href="/ACLR/MovementReport">ACLR Movement Reports</a></li>
+					<li th:classappend="${#httpServletRequest.getRequestURI().startsWith('/ACLR/Report') ? 'active':''}"><a href="/ACLR/Report">ACLR Reports</a></li>
+					<li th:classappend="${#httpServletRequest.getRequestURI().startsWith('/ACLR/StaffReport') ? 'active':''}"><a href="/ACLR/StaffReport">Staff Performance Report</a></li>
+					<li th:classappend="${#httpServletRequest.getRequestURI().startsWith('/ACLR/AutoDeclineReport') ? 'active':''}"><a href="/ACLR/AutoDeclineReport">ACLR Auto Decline Reports</a></li>
 				</ul>
 			</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

@@ -18,6 +18,10 @@
 					<td th:text="${item.clrAppno}"></td>
 				</tr>
 				<tr>
+					<td width="30%">Card No</td>
+					<td th:text="${item.clrCardno}"></td>
+				</tr>
+				<tr>
 					<td>Current Queue</td>
 					<td th:text="${item.tbmQparam.qprmQname}"></td>
 				</tr>
@@ -80,7 +84,7 @@
 			</table>
 		</div>
 		<div id="tabs-2">
-		
+		Employment History
 		<table border="1px solid #CCCCCC" width="100%">
 			<tr>
 				<th>Employment Type</th>
@@ -92,9 +96,22 @@
 			<tr th:each="tbCifemphist : ${item.tbCif.tbCifemphistList}">
 				<td th:text="${tbCifemphist.id.cfemEmptype}"></td>
 				<td th:text="${tbCifemphist.id.cfemEmployername1}"></td>
-				<td th:text="${tbCifemphist.cfemNetmonthlysalary}" ></td>
 				<td th:text="${tbCifemphist.cfemGrossmonthlysalary}" ></td>
+				<td th:text="${tbCifemphist.cfemNetmonthlysalary}" ></td>
 				<td th:text="${tbCifemphist.cfemAnnualincome}" ></td>
+			</tr>
+		</table>
+		<hr />
+		Id
+		<table border="1px solid #CCCCCC" width="100%">
+			<tr>
+				<th>Type</th>
+				<th>ID No</th>
+			</tr>
+			<tr th:each="tbCifaddid : ${item.tbCif.tbCifaddidList}">
+				<td th:text="${tbCifaddid.id.cfaiIdtypeid}"></td>
+				<td th:text="${tbCifaddid.id.cfaiIdno}"></td>
+				
 			</tr>
 		</table>
 		
@@ -104,9 +121,9 @@
 			FC Request
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<td>Queue</td>
-					<td>Request Status</td>
-					<td>Request XML</td>
+					<th>Queue</th>
+					<th>Request Status</th>
+					<th>Request XML</th>
 				</tr>
 				<tr th:each="fcRequest : ${item.tbFcreportrequestList}">
 					<td th:text="${fcRequest.frrqQprmid}">Queue</td>
@@ -120,11 +137,11 @@
 			FC Response
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<td>Queue</td>
-					<td>Status</td>
-					<td>Direction</td>
-					<td>Remark</td>
-					<td>Response XML</td>
+					<th>Queue</th>
+					<th>Status</th>
+					<th>Direction</th>
+					<th>Remark</th>
+					<th>Response XML</th>
 				</tr>
 				<tr th:each="fcResponse : ${item.tbFcreportresponseList}">
 					<td th:text="${fcResponse.fcrpQprmid}">Queue</td>
@@ -139,11 +156,11 @@
 			Multiple Entity
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<td>Name</td>
-					<td>ID NO</td>
-					<td>Entity Key</td>
-					<td>Select Flag</td>
-					<td>Force Add Flag</td>
+					<th>Name</th>
+					<th>ID NO</th>
+					<th>Entity Key</th>
+					<th>Select Flag</th>
+					<th>Force Add Flag</th>
 				</tr>
 				<tr th:each="tbFcmultipleentity : ${item.tbFcmultipleentityList}">
 					<td th:text="${tbFcmultipleentity.mulName}">Name</td>
@@ -153,15 +170,30 @@
 					<td th:text="${tbFcmultipleentity.mulForceaddflag}">Force Add Flag</td>
 				</tr>
 			</table>
+			<hr />
+			Multiple Entity Update Request
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<th>Date</th>
+					<th>By</th>
+					<th>XML</th>
+				</tr>
+				<tr th:each="tbFcmulupdmaster : ${item.tbFcmulupdmasterList}">
+					<td th:text="${tbFcmulupdmaster.mulmCreateddate}"></td>
+					<td th:text="${tbFcmulupdmaster.mulmCreatedby}"></td>
+					<td><textarea cols="80" rows="17" style="font-size: 8pt"
+							th:text="${tbFcmulupdmaster.mulmUpdatexml}"></textarea></td>
+				</tr>
+			</table>
 			
 		</div>
 		<div id="tabs-4">
 			Scoring Request
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<td>Request ID</td>
-					<td>Request Status</td>
-					<td>Request XML</td>
+					<th>Request ID</th>
+					<th>Request Status</th>
+					<th>Request XML</th>
 				</tr>
 				<tr th:each="sccappreq : ${item.tbSccappreqList}">
 					<td th:text="${sccappreq.sarqSarqid}">Queue</td>
@@ -175,10 +207,10 @@
 			Scoring Response
 			<table border="1px solid #CCCCCC" width="100%">
 				<tr>
-					<td>Request ID</td>
-					<td>Status</td>
-					<td>Remark</td>
-					<td>Response XML</td>
+					<th>Request ID</th>
+					<th>Status</th>
+					<th>Remark</th>
+					<th>Response XML</th>
 				</tr>
 				<tr th:each="sccapprespond : ${item.tbSccapprespondList}">
 					<td th:text="${sccapprespond.sarpSarqid}">Queue</td>
@@ -186,6 +218,31 @@
 					<td th:text="${sccapprespond.sarpRemark}">Remark</td>
 					<td><textarea cols="80" rows="17" style="font-size: 8pt"
 							th:text="${sccapprespond.sarpRespondxml}"></textarea></td>
+				</tr>
+			</table>
+			
+			<hr />
+			App2TotalLimit
+			<table border="1px solid #CCCCCC" width="100%">
+				<tr>
+					<th>Risk Group</th>
+					<th>Recommendation</th>
+					<th>Proposed Shopping</th>
+					<th>Proposed Cash</th>
+					<th>Prev Shopping</th>
+					<th>Prev Cash</th>
+					<th>Score</th>
+					<th>Net Salary</th>
+				</tr>
+				<tr >
+					<td th:text="${item.tbApp2totallimit.a2tRiskgroup}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tRecommendation}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tProposedshopping}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tProposedcashing}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tPreviousshopping}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tPreviouscashing}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tScore}"></td>
+					<td th:text="${item.tbApp2totallimit.a2tNetsalary}"></td>
 				</tr>
 			</table>
 		</div>
@@ -236,7 +293,7 @@
 			</tr>
 			<tr th:each="tbPrejudgehist : ${item.tbPrejudgehistList}">
 				<td th:text="${tbPrejudgehist.pjhJudgeddate}"></td>
-				<td th:text="${tbPrejudgehist.pjhJudgedby}"></td>
+				<td th:text="${tbPrejudgehist.pjhJudgedby} + '(' + ${tbPrejudgehist.tbUser.userName} + ')'"></td>
 				<td th:text="${tbPrejudgehist.judgeStatus.nmcdFullname}" ></td>
 				<td th:text="${tbPrejudgehist.pjhJudgeremark}" ></td>
 			</tr>

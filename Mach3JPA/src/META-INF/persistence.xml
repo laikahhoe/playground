@@ -32,6 +32,11 @@
 		<class>com.icefive.model.db.jpa.fbchecking.TbSccapprespond</class>
 		<class>com.icefive.model.db.jpa.assessment.TbPrejudgehist</class>
 		<class>com.icefive.model.db.jpa.fbchecking.TbFcmultipleentity</class>
+		<class>com.icefive.model.db.jpa.common.TbApp2commitment</class>
+		<class>com.icefive.model.db.jpa.common.TbApp2commitmentPK</class>
+		<class>com.icefive.model.db.jpa.common.TbApp2totallimit</class>
+		<class>com.icefive.model.db.jpa.common.TbUser</class>
+		<class>com.icefive.model.db.jpa.fbchecking.TbFcmulupdmaster</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>

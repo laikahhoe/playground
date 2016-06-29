@@ -17,6 +17,8 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
+import com.icefive.model.bean.ACLRAutoDeclineReport;
+import com.icefive.model.bean.ACLRMovementReport;
 import com.icefive.model.bean.ACLRReport;
 import com.icefive.model.bean.ACLRStaffReport;
 import com.icefive.model.db.jpa.common.TbCclimitRev;
@@ -156,7 +158,7 @@ public class AclrDao {
 				+ " INNER JOIN MASTER.TBM_NAMECODE C "
 				+ " ON C.NMCD_VALUE = H.PJH_JUDGESTATUS "
 				+ " AND C.NMCD_NMCDCODE = 'AS07' "
-				+ " WHERE  DATE(CLR_SUBMITTED_DATE) = ? " 
+				+ " WHERE  DATE(PJH_JUDGEDDATE) = ? " 
 				+ " GROUP BY H.PJH_JUDGEDBY, U.USER_NAME,C.NMCD_NAME ORDER BY H.PJH_JUDGEDBY ASC ","QueueStaffReport");
 	    query.setParameter(1, submissionDate,TemporalType.DATE);
 		List<ACLRStaffReport> result= query.getResultList();
@@ -235,6 +237,48 @@ public class AclrDao {
 	}
 	
 	
+	public List findForMovementReport(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("select D, SUM(TOT_NEW)  AS NEW,SUM(TOT_SUBMIT) AS SUBMITTED, SUM(TOT_PRE) AS PREAPPROVED, SUM(TOT_FINAL) AS FINALJUDGE from ( ");
+		sb.append("	select DATE(CLR_SUBMITTED_DATE) AS D, count(*) AS TOT_SUBMIT, 0 AS TOT_PRE, 0 AS TOT_FINAL, 0 AS TOT_NEW from COMMON.TB_CCLIMIT_REV GROUP BY DATE(CLR_SUBMITTED_DATE) ");
+		sb.append("	UNION ALL ");
+		sb.append("	select DATE(CLR_PREJUDGED_DATE) AS D, 0 AS TOT_SUBMIT, count(*) AS TOT_PRE, 0 AS TOT_FINAL, 0 AS TOT_NEW from COMMON.TB_CCLIMIT_REV GROUP BY DATE(CLR_PREJUDGED_DATE) ");
+		sb.append("	UNION ALL ");
+		sb.append("	select DATE(CLR_FINALJUDGED_DATE) AS D, 0 AS TOT_SUBMIT, 0 AS TOT_PRE, count(*) AS TOT_FINAL, 0 AS TOT_NEW from COMMON.TB_CCLIMIT_REV GROUP BY DATE(CLR_FINALJUDGED_DATE) ");
+		sb.append("	UNION ALL  ");
+		sb.append("	select DATE(CLR_CREATED_DATE) AS D, 0 AS TOT_SUBMIT, 0 AS TOT_PRE, 0 AS TOT_FINAL, count(*) AS TOT_NEW from COMMON.TB_CCLIMIT_REV GROUP BY DATE(CLR_CREATED_DATE) ");
+		sb.append("	)TEMP  GROUP BY D ORDER BY D ASC ");
+		EntityManager em = getEMF().createEntityManager();
+		Query query = em.createNativeQuery(sb.toString(),"ACLRMovementReport");
+		List<ACLRMovementReport> result= query.getResultList();
+		return result;
+	}
+	
+	
+	public List findForAutoDeclineReport(Date submissionDate){
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT TEMP.CLR_APPNO, RPT_OUT.QFR_REMARK FROM (");
+		sb.append(" select CLR_APPNO, MAX(RPT.QFR_SEQ)AS SEQ, MAX(RPT.QFR_SUBSEQ)AS  SUBSEQ from COMMON.TB_CCLIMIT_REV R");
+		sb.append(" INNER JOIN FB_CHECKING.TB_QFLOWRPT RPT");
+		sb.append(" ON R.CLR_APPNO = RPT.QFR_APPNO ");
+		sb.append(" WHERE DATE(CLR_PREJUDGED_DATE) = ?");
+		sb.append(" AND CLR_STATUS = 'D'");
+		sb.append(" AND CLR_FINALJUDGED_BY = 'SYSTEM'");
+		sb.append(" GROUP BY CLR_APPNO ");
+		sb.append(" )TEMP ");
+		sb.append(" INNER JOIN COMMON.TB_CCLIMIT_REV R_OUT");
+		sb.append(" ON R_OUT.CLR_APPNO = TEMP.CLR_APPNO");
+		sb.append(" INNER JOIN FB_CHECKING.TB_QFLOWRPT RPT_OUT");
+		sb.append(" ON RPT_OUT.QFR_SEQ = TEMP.SEQ");
+		sb.append(" AND RPT_OUT.QFR_SUBSEQ = TEMP.SUBSEQ");
+		sb.append(" AND RPT_OUT.QFR_APPNO = TEMP.CLR_APPNO");
+		
+		EntityManager em = getEMF().createEntityManager();
+		Query query = em.createNativeQuery(sb.toString(),"ACLRAutoDeclineReport");
+		query.setParameter(1, submissionDate,TemporalType.DATE);
+		List<ACLRAutoDeclineReport> result= query.getResultList();
+		return result;
+	}
 	
 
 }

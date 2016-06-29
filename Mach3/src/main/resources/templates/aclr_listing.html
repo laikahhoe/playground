@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
 
 <div layout:fragment="content">
-<form th:action="@{/ACLR}" th:object="${aclrForm}" method="post">
+<form th:action="@{/ACLR/Search}" th:object="${aclrForm}" method="post">
 <table width="100%">
 <tr>
 	<td width="200px">Application No</td>
@@ -16,6 +16,7 @@
 	<option value="4">Fraud Judge Queue(4)</option>
 	<option value="12">Assessment(12)</option>
 	<option value="17">CCRIS(17)</option>
+	<option value="27">Scoring Queue(27)</option>
 	<option value="39">Completed(39)</option>
 	</select> </td>
 	
@@ -33,14 +34,16 @@
 
 </table>
 <hr/>
-<div th:text="${total}"/>
+<div th:text="'Total : ' + ${total}"/>
 <table width="100%" border="1px solid ">
 	<tr>
+	<th>No</th>
 	<th>Application No</th>
 	<th>Queue</th>
 	<th>Submitted Date</th>
 	</tr>
-	<tr th:each="clr : ${list}">
+	<tr th:each="clr,status : ${list}">
+		<td th:text="${status.count}"></td>
 		<td> <a th:href="@{'/ACLR/detail/' + ${clr.clrAppno}}"  th:text="${clr.clrAppno}"></a></td> 
 		<td><div th:text="${clr.tbmQparam.qprmQname}"></div> </td>
 		<td><div th:text="${clr.clrSubmittedDate}"></div> </td>
